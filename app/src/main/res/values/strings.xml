@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ghtk-stopwatch</string>
+    <string name="_00">00:00:00</string>
+    <string name="colon">:</string>
+    <string name="btn_pause">btn_pause</string>
+    <string name="add_stopwatch">Add Stopwatch</string>
+    <string name="btn_start">btn_start</string>
+    <string name="btn_delete">btn_delete</string>
+</resources>
