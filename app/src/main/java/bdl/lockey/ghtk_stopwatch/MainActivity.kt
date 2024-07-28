@@ -47,8 +47,10 @@ class MainActivity : AppCompatActivity(), IClickItemTimerListener {
 
         binding.btnStart.setOnClickListener {
             for (stopWatch  in stopWatchList) {
-                onClickRestart(stopWatchList.indexOf(stopWatch))
-                onClickContinue(stopWatchList.indexOf(stopWatch))
+                // Chi dong ho nao chua chay moi co the khoi dong
+                if (stopWatch.elapsedTime == 0L) {
+                    onClickContinue(stopWatchList.indexOf(stopWatch))
+                }
             }
         }
 
@@ -60,7 +62,11 @@ class MainActivity : AppCompatActivity(), IClickItemTimerListener {
 
         binding.btnContinue.setOnClickListener {
             for (stopWatch  in stopWatchList) {
-                onClickContinue(stopWatchList.indexOf(stopWatch))
+                // Chi dong ho nao da chay va tam dung thi moi chay tiep
+                if (!stopWatch.isRunning && stopWatch.elapsedTime != 0L) {
+                    onClickContinue(stopWatchList.indexOf(stopWatch))
+                }
+
             }
         }
 
@@ -71,6 +77,7 @@ class MainActivity : AppCompatActivity(), IClickItemTimerListener {
         }
     }
 
+    // Khoi chay hoac tiep tuc
     override fun onClickContinue(position: Int) {
         val stopwatch = stopWatchList[position]
         startStopwatch(stopwatch)
@@ -82,12 +89,14 @@ class MainActivity : AppCompatActivity(), IClickItemTimerListener {
         adapter.notifyItemChanged(position)
     }
 
+    // Tam dung
     override fun onClickPause(position: Int) {
         val stopwatch = stopWatchList[position]
         stopStopwatch(stopwatch)
         adapter.notifyItemChanged(position)
     }
 
+    // Khoi dong lai dong ho
     override fun onClickRestart(position: Int) {
         stopWatchList[position].isRunning = false
         stopWatchList[position].elapsedTime = 0L
@@ -95,6 +104,7 @@ class MainActivity : AppCompatActivity(), IClickItemTimerListener {
         adapter.notifyItemChanged(position)
     }
 
+    // Xoa
     @SuppressLint("NotifyDataSetChanged")
     override fun onClickDelete(position: Int) {
         stopWatchList[position].job?.cancel()
@@ -102,6 +112,7 @@ class MainActivity : AppCompatActivity(), IClickItemTimerListener {
         adapter.notifyDataSetChanged()
     }
 
+    // Khoi chay dong ho
     @SuppressLint("NotifyDataSetChanged")
     private fun startStopwatch(stopWatch: StopWatch) {
         stopWatch.isRunning = true
@@ -118,6 +129,7 @@ class MainActivity : AppCompatActivity(), IClickItemTimerListener {
     }
 
 
+    // Dung dong ho
     private fun stopStopwatch(stopwatch: StopWatch) {
         stopwatch.isRunning = false
         stopwatch.job?.cancel()

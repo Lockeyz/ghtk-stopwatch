@@ -30,6 +30,7 @@ class StopWatchAdapter(
         val view = holder.binding
         view.tvTime.text = formatTime(item.elapsedTime)
 
+        // Khoi chay hoac tiep tuc
         view.btnContinue.setOnClickListener {
             iClickItemTimerListener.onClickContinue(position)
 //            if (item.isRunning) {
@@ -41,27 +42,32 @@ class StopWatchAdapter(
 //            }
         }
 
+        // tam dung
         view.btnPause.setOnClickListener {
             iClickItemTimerListener.onClickPause(position)
         }
 
+        // Khoi dong lai dong ho
         view.btnRestart.setOnClickListener {
             view.tvTime.text = "00:00:00"
             iClickItemTimerListener.onClickRestart(position)
         }
 
+        // Xoa dong ho
         view.btnDelete.setOnClickListener {
             iClickItemTimerListener.onClickDelete(position)
         }
 
     }
 
+    // Them dong ho dem gio moi
     @SuppressLint("NotifyDataSetChanged")
     fun addStopwatch() {
         dataset.add(StopWatch())
         notifyDataSetChanged()
     }
 
+    // Hien thi thoi gian
     @SuppressLint("DefaultLocale")
     private fun formatTime(timeMillis: Long): String {
         val seconds = (timeMillis / 1000) % 60
